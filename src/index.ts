@@ -74,6 +74,10 @@ bot.on(`ready`, () => {
 bot.on(`interactionCreate`, async (interaction) => {
     if (!interaction.isCommand() || interaction.user.bot) return;
 
+    await interaction.deferReply({
+        ephemeral: interaction.channel?.id !== undefined,
+    });
+
     const { commandName, options } = interaction;
 
     const userID = interaction.user.id;
@@ -83,16 +87,14 @@ bot.on(`interactionCreate`, async (interaction) => {
             // Get the user's balance
             const balance = await rpc(`getbalance`, [userID]);
             if (balance[0]) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `An error occured while fetching your balance`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
-            await interaction.reply({
+            await interaction.editReply({
                 content: `You currently have ${JSON.stringify(balance[1])} BKC`,
-                ephemeral: interaction.channel?.id !== undefined,
             });
             break;
         }
@@ -101,18 +103,16 @@ bot.on(`interactionCreate`, async (interaction) => {
             // Check if the user has a wallet
             const hasWallet = await rpc(`getaddressesbyaccount`, [userID]);
             if (hasWallet[0]) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `An error occured while generating a new deposit address`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
             // If the user already has a wallet
             if (hasWallet[1].length > 0) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Your deposit address is ${hasWallet[1][0]}`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -120,17 +120,15 @@ bot.on(`interactionCreate`, async (interaction) => {
             else {
                 const newAddress = await rpc(`getnewaddress`, [userID]);
                 if (newAddress[0]) {
-                    await interaction.reply({
+                    await interaction.editReply({
                         content: `An error occured while generating a new deposit address`,
-                        ephemeral: interaction.channel?.id !== undefined,
                     });
                     break;
                 }
 
                 // Reply with the new address
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Your new deposit address is ${newAddress[1]}`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -140,9 +138,8 @@ bot.on(`interactionCreate`, async (interaction) => {
             // Check if the user has a wallet
             const hasWallet = await rpc(`getaddressesbyaccount`, [userID]);
             if (hasWallet[0]) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `An error occured while dumping your private key`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -152,17 +149,15 @@ bot.on(`interactionCreate`, async (interaction) => {
                 // Dump the private key
                 const privateKey = await rpc(`dumpprivkey`, [hasWallet[1][0]]);
                 if (privateKey[0]) {
-                    await interaction.reply({
+                    await interaction.editReply({
                         content: `An error occured while dumping your private key`,
-                        ephemeral: interaction.channel?.id !== undefined,
                     });
                     break;
                 }
 
                 // Reply with the private key
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Your private key is ${privateKey[1]}`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -170,9 +165,8 @@ bot.on(`interactionCreate`, async (interaction) => {
             else {
                 const newAddress = await rpc(`getnewaddress`, [userID]);
                 if (newAddress[0]) {
-                    await interaction.reply({
+                    await interaction.editReply({
                         content: `An error occured while dumping your private key`,
-                        ephemeral: interaction.channel?.id !== undefined,
                     });
                     break;
                 }
@@ -180,17 +174,15 @@ bot.on(`interactionCreate`, async (interaction) => {
                 // Dump the private key
                 const privateKey = await rpc(`dumpprivkey`, [newAddress[1]]);
                 if (privateKey[0]) {
-                    await interaction.reply({
+                    await interaction.editReply({
                         content: `An error occured while dumping your private key`,
-                        ephemeral: interaction.channel?.id !== undefined,
                     });
                     break;
                 }
 
                 // Reply with the private key
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Your private key is ${privateKey[1]}`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -203,18 +195,16 @@ bot.on(`interactionCreate`, async (interaction) => {
 
             // Make sure both values were provided
             if (!amount || !address) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Please provide an amount and address`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
             // Validate the address
             if (!/^[B][a-zA-Z0-9]{33}$/.test(address)) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Please provide a valid address`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -222,18 +212,16 @@ bot.on(`interactionCreate`, async (interaction) => {
             // Fetch the user's balance
             const balance = await rpc(`getbalance`, [userID]);
             if (balance[0]) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `An error occured while fetching your balance`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
             // Check if the user has enough balance
             if (balance[1] < amount) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `You don't have enough balance`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -241,17 +229,15 @@ bot.on(`interactionCreate`, async (interaction) => {
             // Withdraw the amount
             const result = await rpc(`sendfrom`, [userID, address, amount]);
             if (result[0]) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `An error occured while creating the transaction`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
             // Reply with the transaction ID
-            await interaction.reply({
+            await interaction.editReply({
                 content: `Success! ${amount} BKC has been sent to ${address} with TXID ${result[1]}`,
-                ephemeral: interaction.channel?.id !== undefined,
             });
 
             // DM the user the transaction ID if their DM is open
@@ -272,18 +258,16 @@ bot.on(`interactionCreate`, async (interaction) => {
 
             // Make sure both values were provided
             if (!toTip || !amount) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `Please provide a user to tip and an address`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
             // Make sure the to get tipped user isn't a bot nor the user itself
             if (toTip.bot || toTip.id === userID) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `You can't tip yourself or a bot`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -291,18 +275,16 @@ bot.on(`interactionCreate`, async (interaction) => {
             // Fetch the user's balance
             const balance = await rpc(`getbalance`, [userID]);
             if (balance[0]) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `An error occured while fetching your balance`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
             // Check if the user has enough balance
             if (balance[1] < amount) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `You don't have enough balance`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
@@ -310,17 +292,15 @@ bot.on(`interactionCreate`, async (interaction) => {
             // Make the tip
             const result = await rpc(`move`, [userID, toTip.id, amount]);
             if (result[0]) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: `An error occured while moving the funds`,
-                    ephemeral: interaction.channel?.id !== undefined,
                 });
                 break;
             }
 
             // Inform the user the tip was successful
-            await interaction.reply({
+            await interaction.editReply({
                 content: `Success! ${amount} BKC has been sent to ${toTip.tag}`,
-                ephemeral: interaction.channel?.id !== undefined,
             });
 
             // DM the user the tip if their DM is open
