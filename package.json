@@ -1,0 +1,40 @@
+{
+    "name": "tipbot",
+    "version": "1.0.0",
+    "description": "A tipbot for Bunkercoin",
+    "main": "build/src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node .",
+        "build": "tsc",
+        "dev": "nodemon -w src -e ts -x \"npm run build; npm start\"",
+        "format": "prettier -w src"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bunkercoin/tipbot.git"
+    },
+    "keywords": [
+        "bunkercoin",
+        "bkc",
+        "tipbot",
+        "tipping",
+        "money",
+        "crypto"
+    ],
+    "author": "Bram (sys-256)",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/bunkercoin/tipbot/issues"
+    },
+    "homepage": "https://github.com/bunkercoin/tipbot#readme",
+    "dependencies": {
+        "discord.js": "^13.6.0"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.30",
+        "nodemon": "^2.0.16",
+        "prettier": "^2.6.2",
+        "typescript": "^4.6.4"
+    }
+}

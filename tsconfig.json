@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        // Basic options
+        "outDir": "build",
+        "module": "ESNext",
+        "target": "ESNext",
+        // Convenience + fix errors
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        // Stricter code quality
+        "strict": true,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "noUnusedLocals": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noUnusedParameters": true,
+        "strictFunctionTypes": true,
+        "forceConsistentCasingInFileNames": true,
+    },
+    "include": ["src/**/*.ts"]
+}
