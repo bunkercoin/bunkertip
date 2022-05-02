@@ -20,23 +20,21 @@ bot.on(`ready`, () => {
 });
 
 bot.on(`interactionCreate`, async (interaction) => {
+    // Make sure it's a command and not used by a bot
     if (!interaction.isCommand() || interaction.user.bot) return;
 
+    // Defer the reply to avoid Unknown reply error
     await interaction.deferReply({
         ephemeral: interaction.channel?.id !== undefined,
     });
 
-    const { commandName, options } = interaction;
-
-    const userID = interaction.user.id;
-
-    switch (commandName) {
+    switch (interaction.commandName) {
         case `tip`:
         case `balance`:
         case `deposit`:
         case `withdraw`:
         case `privatekey`: {
-            commands[commandName](interaction, userID, options);
+            commands[interaction.commandName](interaction);
             break;
         }
     }

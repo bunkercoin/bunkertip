@@ -2,7 +2,11 @@
 import Discord from "discord.js";
 import { rpc } from "../helper.js";
 
-export default async (interaction: Discord.CommandInteraction, userID: string, options: any) => {
+export default async (interaction: Discord.CommandInteraction) => {
+    // Parse the options and userID
+    const options = interaction.options;
+    const userID = interaction.user.id;
+
     // Parse the amount and address
     const amount = options.getNumber(`amount`);
     const address = options.getString(`address`);

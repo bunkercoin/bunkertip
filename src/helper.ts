@@ -22,15 +22,19 @@ export const rpc = (method: string, params: (number | string)[]): Promise<[strin
                 },
             },
             (response) => {
+                // Initialize the response
                 let data = ``;
                 response.setEncoding(`utf8`);
 
+                // Add the data to the response
                 response.on(`data`, (chunk) => {
                     data += chunk;
                 });
 
                 response.on(`end`, () => {
+                    // Parse the response
                     const parsedJSON = JSON.parse(data);
+                    // If the response is an error, resolve with the error, else resolve with the data
                     if (!parsedJSON || !parsedJSON[`id`] || parsedJSON[`error`]) {
                         resolve([JSON.stringify(parsedJSON[`error`]), {}]);
                     } else {

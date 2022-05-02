@@ -2,7 +2,10 @@
 import Discord from "discord.js";
 import { rpc } from "../helper.js";
 
-export default async (interaction: Discord.CommandInteraction, userID: string, _options: any) => {
+export default async (interaction: Discord.CommandInteraction) => {
+    // Parse the userID
+    const userID = interaction.user.id;
+
     // Get the user's balance
     const balance = await rpc(`getbalance`, [userID]);
     if (balance[0]) {
