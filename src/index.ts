@@ -23,10 +23,10 @@ bot.on(`interactionCreate`, async (interaction) => {
     // Make sure it's a command and not used by a bot
     if (!interaction.isCommand() || interaction.user.bot) return;
 
-    // Defer the reply to avoid Unknown reply error
+    // Defer the reply to avoid Unknown interaction error
     await interaction.deferReply({
         ephemeral: interaction.channel?.id !== undefined,
-    });
+    }).catch(() => {});
 
     switch (interaction.commandName) {
         case `tip`:
