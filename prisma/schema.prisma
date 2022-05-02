@@ -1,0 +1,13 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:main.sqlite3"
+}
+
+model User {
+    discordID     String  @unique
+    sharesBalance Boolean @default(false)
+}

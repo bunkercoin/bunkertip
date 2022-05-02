@@ -61,4 +61,29 @@ export default (commands: Discord.ApplicationCommandManager | undefined) => {
             },
         ],
     });
+
+    commands?.create({
+        name: `settings`,
+        description: `Change your settings`,
+        options: [
+            {
+                name: `key`,
+                description: `The key to change`,
+                type: `STRING`,
+                required: true,
+                choices: [
+                    {
+                        name: `Share Balance`,
+                        value: `sharesBalance`,
+                    },
+                ],
+            },
+            {
+                name: `value`,
+                description: `The value to set the key to`,
+                type: `BOOLEAN`,
+                required: true,
+            },
+        ],
+    });
 };

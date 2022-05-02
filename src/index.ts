@@ -33,6 +33,7 @@ bot.on(`interactionCreate`, async (interaction) => {
         case `balance`:
         case `deposit`:
         case `withdraw`:
+        case `settings`:
         case `privatekey`: {
             commands[interaction.commandName](interaction);
             break;

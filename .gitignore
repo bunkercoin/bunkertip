@@ -7,3 +7,6 @@ logs/
 
 # Build
 build/
+
+# Database
+prisma/main.sqlite3
