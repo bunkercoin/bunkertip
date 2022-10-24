@@ -87,7 +87,7 @@ export default async (commands: Discord.ApplicationCommandManager | undefined) =
         ],
     });
 
-	await commands?.create({
+    await commands?.create({
         name: `phrasedrop`,
         description: `Claim your Bunkercoins from the phrasedrop`,
         options: [

@@ -64,7 +64,7 @@ export const createRains = async (bot: Discord.Client) => {
             return console.log(`An error occured while fetching the rewardees`);
         }
 
-		// Check if the rain was claimed and if so, send the Bunkercoins
+        // Check if the rain was claimed and if so, send the Bunkercoins
         const rewardeesArray = result.rewardees.split(`,`).slice(0, -1);
         if (!result.rewardees.includes(`,`)) {
             return await rainChannel.send(`Unfortunately, no one claimed the rain. Better luck next time!`);
