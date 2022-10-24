@@ -10,13 +10,17 @@ const bot = new Discord.Client({
 // Helper functions
 import createCommands from "./createCommands.js";
 import commands from "./commands.js";
+import { createRains, phrasedropCommand } from "./rains.js";
 
-bot.on(`ready`, () => {
+bot.on(`ready`, async () => {
     // Create the slash commands
-    createCommands(bot.application?.commands);
+    await createCommands(bot.application?.commands);
 
     // Log that the bot is ready
     console.log(`Logged in as ${bot.user?.tag}!`);
+
+    // Start the automated rains
+    createRains(bot);
 });
 
 // When someone uses a command
@@ -39,6 +43,11 @@ bot.on(`interactionCreate`, async (interaction) => {
         case `settings`:
         case `privatekey`: {
             commands[interaction.commandName](interaction);
+            break;
+        }
+
+        case `phrasedrop`: {
+            phrasedropCommand(interaction);
             break;
         }
     }

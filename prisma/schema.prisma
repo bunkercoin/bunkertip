@@ -11,3 +11,9 @@ model User {
     discordID     String  @unique
     sharesBalance Boolean @default(false)
 }
+
+model Rains {
+	startTime DateTime @unique
+	phrase String
+	rewardees String
+}

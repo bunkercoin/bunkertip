@@ -1,8 +1,8 @@
 // Import packages
 import Discord from "discord.js";
 
-export default (commands: Discord.ApplicationCommandManager | undefined) => {
-    commands?.create({
+export default async (commands: Discord.ApplicationCommandManager | undefined) => {
+    await commands?.create({
         name: `balance`,
         description: `Returns your balance`,
         options: [
@@ -14,17 +14,17 @@ export default (commands: Discord.ApplicationCommandManager | undefined) => {
         ],
     });
 
-    commands?.create({
+    await commands?.create({
         name: `deposit`,
         description: `Deposit Bunkercoins to your balance`,
     });
 
-    commands?.create({
+    await commands?.create({
         name: `privatekey`,
         description: `Returns your private key`,
     });
 
-    commands?.create({
+    await commands?.create({
         name: `withdraw`,
         description: `Withdraw Bunkercoins from your balance`,
         options: [
@@ -43,7 +43,7 @@ export default (commands: Discord.ApplicationCommandManager | undefined) => {
         ],
     });
 
-    commands?.create({
+    await commands?.create({
         name: `tip`,
         description: `Tip a user`,
         options: [
@@ -62,7 +62,7 @@ export default (commands: Discord.ApplicationCommandManager | undefined) => {
         ],
     });
 
-    commands?.create({
+    await commands?.create({
         name: `settings`,
         description: `Change your settings`,
         options: [
@@ -82,6 +82,19 @@ export default (commands: Discord.ApplicationCommandManager | undefined) => {
                 name: `value`,
                 description: `The value to set the key to`,
                 type: `BOOLEAN`,
+                required: true,
+            },
+        ],
+    });
+
+	await commands?.create({
+        name: `phrasedrop`,
+        description: `Claim your Bunkercoins from the phrasedrop`,
+        options: [
+            {
+                name: `phrase`,
+                description: `The phrase to claim your Bunkercoins from`,
+                type: `STRING`,
                 required: true,
             },
         ],

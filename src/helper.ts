@@ -61,3 +61,12 @@ export const rpc = (method: string, params: (number | string)[]): Promise<[strin
         request.end();
     });
 };
+
+/**
+ * Sleeps for a given amount of seconds
+ * @param seconds The amount of seconds to sleep
+ * @returns A promise that resolves after the given amount of seconds
+ */
+export const sleep = (seconds: number): Promise<void> => {
+    return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+};
