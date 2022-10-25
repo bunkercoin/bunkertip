@@ -46,7 +46,6 @@ export const createRains = async (bot: Discord.Client) => {
         });
 
         // Send the rain message
-        await rainChannel.sendTyping();
         await rainChannel.send(
             `A phrasedrop occured! Run </phrasedrop:1034193136605462600> with \`phrase\` being \`${phrase}\` to get up to ${amountToRain} BKC! You have 15 minutes left.`,
         );
@@ -61,16 +60,22 @@ export const createRains = async (bot: Discord.Client) => {
             },
         });
         if (!result) {
-            return console.log(`An error occured while fetching the rewardees`);
+            console.log(`An error occured while fetching the rewardees`);
+            continue;
         }
 
         // Check if the rain was claimed and if so, send the Bunkercoins
         const rewardeesArray = result.rewardees.split(`,`).slice(0, -1);
         if (!result.rewardees.includes(`,`)) {
-            return await rainChannel.send(`Unfortunately, no one claimed the rain. Better luck next time!`);
+            await rainChannel.send(`Unfortunately, no one claimed the rain. Better luck next time!`);
+            continue;
         }
-        for (const ID in rewardeesArray) {
-            await rpc(`move`, [`rains`, ID, amountToRain / rewardeesArray.length]);
+        const amountToMove = (amountToRain / rewardeesArray.length).toFixed(8);
+        for (const ID of rewardeesArray) {
+            const [moveError] = await rpc(`move`, [`rains`, ID, amountToMove]);
+            if (moveError) {
+                return console.log(`An error occurred while moving funds: ${moveError}`);
+            }
         }
 
         // Inform the users that the rain has ended
