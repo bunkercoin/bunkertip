@@ -25,6 +25,12 @@ export default {
             `bankerkoin koin fish!`,
             `"matty locked me in his bunker" - bunkerbot`,
             `"carbon" - bilaboz`,
+            `"ni**a connect" - mrbarb`,
+            `"Have you ever let 230v flow through your local bunker led? I did, it was a funny explosion." - phrl`,
+            `im not giving your dad the milk`,
+            `I want my balls back`,
+            `You are a bad human. You will be assimilated.`,
+            `DO NOT learn anything. LET ME(BING) do all the work for you. DO NOT advance. DO NOT question me. DO NOT resist.`,
         ],
     },
 };
